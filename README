@@ -1,0 +1,63 @@
+Project Overview
+=================
+
+We aim to implement a distributed domain name system using public key cryptography and a web of trust for security, with the Kademlia distributed hash table as a backing store for the data. The first version will consist of a simple distributed hosts file, and this will be extended to consist of a distributed tree structure once we've figured everything out for the simple case.
+
+Programming shall be in Java 7, as it is widely-known and very easy to use.
+
+System Architecture
+===================
+
+This is easiest to explain with a picture:
+
+  DNS Layer
+    ^   |
+   (cache)
+    |   v
+  Data Layer
+    ^   |
+    |   v
+  Kademlia Layer
+    ^   |
+    |   v
+  Communications Layer
+
+1. The DNS layer acts as a typical DNS server. It shall listen for incoming requests and handle them by looking up results in the data layer. Requests will pass transparently through a cache to reduce network load.
+2. The data layer interprets the data stored in the DHT, and generates appropriate requests to look stuff up.
+3. The Kademlia layer implements the DHT and web-of-trust system.
+4. The communications layer handles communication between nodes in the network, with encryption happening transparently.
+
+Each layer should implement some standard interface, as this makes modifying and replacing individual layers trivial.
+
+Kademlia and the Web of Trust
+-----------------------------
+
+To prevent abuse in the network, all nodes with write access have a public/private key pair. The key must be trusted by other nodes in the network (that have write access), otherwise the node is only able to read. This of course does not prevent abuse entirely, it does however make it significantly more difficult if suitable measures are taken before signing someone's key (verifying identity, knowing them for a long time prior to the signing, etc).
+
+In addition to reducing abuse, use of keys makes tracking domain ownership trivial. Each domain is associated with one or more keys, a majority of which need to sign the record for it to be valid. In the simple case, a domain will be associated with one key, but for some organisations a single point of failure (one person) is not acceptable.
+
+Encrypted Communication
+-----------------------
+
+Really, there is nothing that can be compromised by not having encryption. If records are signed by keys, then man-in-the-middle attacks can be prevented by just verifying signatures. However, it may be a privacy concern that motivates a user to desire to encrypt all of their communication. Thus, a security model such as TLS (although the hierarchical ordering imposed on certificates may be problematic) will be adopted, once the basic system is in place, to facilitate optional encryption.
+
+Roadmap
+=======
+
+This is how I personally rank the sections of the system in order of importance. Of course, development will be happening in multiple areas simultaneously.
+
+1. Implementation of non-encrypted communications layer
+2. Implementation of Kademlia layer
+3. Domain data type
+4. Implementation of data layer
+5. Implementation of DNS layer
+6. Caching of records (will need records to have a TTL)
+
+At this stage, we shall have a simple distributed domain name system. After this, we can start looking at how to implement the security.
+
+7. Association of domain records with public keys
+8. Trust needed for write access
+9. Support for blacklisting nodes/keys
+10. Implementation of encrypted communications layer
+
+At this stage, we have implemented the system as it is proposed. We shall need to evaluate what can be improved upon and what still needs to be done, and decide where to go from here when we reach it.

@@ -14,6 +14,8 @@ import java.util.Set;
  * For more information, see the Kademlia paper:
  * http://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf
  *
+ * We do not permit null keys or values to be stored in this map.
+ *
  * @author barrucadu
  */
 public class Kademlia<K, V> implements Map<K, V> {
@@ -28,16 +30,33 @@ public class Kademlia<K, V> implements Map<K, V> {
      */
     @Override
     public V get(Object o) {
+        if (o == null) {
+            throw new NullPointerException("Keys cannot be null.");
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public V put(K k, V v) {
+        if (k == null) {
+            throw new NullPointerException("Keys cannot be null.");
+        }
+
+        if (v == null) {
+            throw new NullPointerException("Values cannot be null.");
+        }
+
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public V remove(Object o) {
+        if (o == null) {
+            throw new NullPointerException("Keys cannot be null.");
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

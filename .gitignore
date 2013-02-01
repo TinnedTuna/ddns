@@ -1,0 +1,17 @@
+# A .gitignore file controls which files git keeps track of in the
+# directory it is placed in and all of its subdirectories. It is a
+# very simple format, and can both exclude and unexclude things. To
+# keep out everything we don't want, I shall be using it to unexclude
+# things after first excluding everything. This way, we don't need to
+# have loads of entries for different IDE-generated cruft in the file.
+
+# Ignore everything.
+*
+
+# Except nonempty directories and the code.
+!*/
+!*.java
+
+# And a couple of other special files
+!README
+!.gitignore

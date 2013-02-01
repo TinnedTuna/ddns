@@ -17,14 +17,15 @@ import java.util.Set;
  * @author barrucadu
  */
 public class Kademlia<K, V> implements Map<K, V> {
+
+    @Override
+    public boolean containsKey(Object o) {
+        return get(o) != null;
+    }
+
     /*
      * TODO: Implement all of the following methods.
      */
-    @Override
-    public boolean containsKey(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     @Override
     public V get(Object o) {
         throw new UnsupportedOperationException("Not supported yet.");
